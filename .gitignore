@@ -1,0 +1,23 @@
+# 后端仓库的忽略规则。
+#
+# 注意：本仓库根即 Go 模块根，因此构建产物规则的锚点是 /bin/ 而非
+# workspace 仓库中的 /backend/bin/——这是从 workspace 拆分出来时
+# 必须同步调整的一处，锚点不改会让 11MB 的可执行文件重新进入版本控制。
+
+# 构建产物
+/bin/
+*.test
+*.out
+
+# 本机 / 会话态
+.DS_Store
+.idea/
+.claude/settings.local.json
+.claude/file-history/
+.claude/plans/
+.claude/todos/
+.claude/.cc-writes/
+
+# Go 工作区文件（如使用 go.work 时的本地覆盖）
+go.work
+go.work.sum

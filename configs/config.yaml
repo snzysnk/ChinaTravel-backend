@@ -1,0 +1,27 @@
+# ChinaTravel 后端运行配置（默认值来源）。
+#
+# 约定：本文件进入版本库，只承载"与环境无关的默认值"。
+# 任何密钥、令牌、生产环境地址一律走 APP_ 前缀的环境变量，不要写进这里。
+#
+# 覆盖方式：APP_ 前缀 + 下划线 + 大写的环境变量可覆盖同名项，
+# 数组型配置以英文逗号分隔，例如
+#   APP_SERVER_PORT=9090
+#   APP_CORS_ALLOW_ORIGINS=http://localhost:3000,https://example.com
+#   APP_LOG_LEVEL=debug
+
+server:
+  # HTTP 监听端口。
+  port: 18080
+  # 优雅关闭的等待上限（秒）：收到终止信号后最多等待这么久，
+  # 超时则不再等待进行中的请求，直接退出。
+  shutdown_timeout_seconds: 10
+
+cors:
+  # 允许跨域访问的来源白名单，必须写完整来源（scheme + host + port），
+  # 不要写通配符。默认值对应当地前端静态服务（见 Makefile 的 serve-frontend）。
+  allow_origins:
+    - http://localhost:5173
+
+log:
+  # 日志级别，取值：debug / info / warn / error。
+  level: info
