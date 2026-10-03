@@ -18,9 +18,13 @@ server:
 
 cors:
   # 允许跨域访问的来源白名单，必须写完整来源（scheme + host + port），
-  # 不要写通配符。默认值对应当地前端静态服务（见 Makefile 的 serve-frontend）。
+  # 不要写通配符。默认值对应本地前端开发服务器（见 Makefile 的 serve-frontend）。
+  #
+  # 注：开发期前端经开发服务器同源转发访问后端（见 frontend-toolchain 规格），
+  # 浏览器不触发跨域校验，本白名单在开发期不会实际生效；它服务于生产环境的
+  # 跨域部署，以及开发期绕过转发直连的排查路径。
   allow_origins:
-    - http://localhost:5173
+    - http://localhost:5174
 
 log:
   # 日志级别，取值：debug / info / warn / error。

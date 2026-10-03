@@ -85,7 +85,7 @@ server:
   shutdown_timeout_seconds: 10
 cors:
   allow_origins:
-    - http://localhost:5173
+    - http://localhost:5174
 log:
   level: info
 `)

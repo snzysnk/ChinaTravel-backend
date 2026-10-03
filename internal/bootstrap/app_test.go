@@ -30,7 +30,7 @@ func buildForTest(t *testing.T) (*gin.Engine, *bytes.Buffer) {
 
 	buf := &bytes.Buffer{}
 	cfg := config.Default()
-	cfg.CORS.AllowOrigins = []string{"http://localhost:5173"}
+	cfg.CORS.AllowOrigins = []string{"http://localhost:5174"}
 
 	return Build(cfg, buf), buf
 }

@@ -9,7 +9,7 @@ import (
 )
 
 // whitelist 是各用例共用的白名单。
-var whitelist = []string{"http://localhost:5173"}
+var whitelist = []string{"http://localhost:5174"}
 
 // newCORSRouter 构造一个挂了 CORS 中间件与一个探针处理函数的路由，
 // 处理函数会把请求真正走到业务层这一事实记录下来。
@@ -30,7 +30,7 @@ func newCORSRouter() (*gin.Engine, *bool) {
 func TestCORSWildcardIsNeverEmitted(t *testing.T) {
 	r, _ := newCORSRouter()
 
-	for _, origin := range []string{"http://localhost:5173", "http://evil.example.com"} {
+	for _, origin := range []string{"http://localhost:5174", "http://evil.example.com"} {
 		req := httptest.NewRequest(http.MethodGet, "/api/health", nil)
 		req.Header.Set("Origin", origin)
 		rec := httptest.NewRecorder()
@@ -47,11 +47,11 @@ func TestCORSAllowedOriginIsGranted(t *testing.T) {
 	r, handled := newCORSRouter()
 
 	req := httptest.NewRequest(http.MethodGet, "/api/health", nil)
-	req.Header.Set("Origin", "http://localhost:5173")
+	req.Header.Set("Origin", "http://localhost:5174")
 	rec := httptest.NewRecorder()
 	r.ServeHTTP(rec, req)
 
-	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5173" {
+	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5174" {
 		t.Errorf("Allow-Origin = %q, 期望回显具体来源", got)
 	}
 	if got := rec.Header().Get(HeaderAllowCredentials); got != "true" {
@@ -88,7 +88,7 @@ func TestCORSPreflightIsAnswered(t *testing.T) {
 	r, handled := newCORSRouter()
 
 	req := httptest.NewRequest(http.MethodOptions, "/api/health", nil)
-	req.Header.Set("Origin", "http://localhost:5173")
+	req.Header.Set("Origin", "http://localhost:5174")
 	req.Header.Set("Access-Control-Request-Method", http.MethodGet)
 	rec := httptest.NewRecorder()
 	r.ServeHTTP(rec, req)
@@ -96,7 +96,7 @@ func TestCORSPreflightIsAnswered(t *testing.T) {
 	if rec.Code < 200 || rec.Code >= 300 {
 		t.Errorf("预检响应状态码 = %d, 期望 2xx", rec.Code)
 	}
-	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5173" {
+	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5174" {
 		t.Errorf("预检未授予来源: %q", got)
 	}
 	if got := rec.Header().Get(HeaderAllowMethods); got == "" {
@@ -159,15 +159,15 @@ func TestCORSSameOriginRequestUnaffected(t *testing.T) {
 // 不会导致白名单静默失效（配置写法容错）。
 func TestCORSWhitelistEntryWithWhitespaceStillMatches(t *testing.T) {
 	r := gin.New()
-	r.Use(CORS([]string{"  http://localhost:5173  "}))
+	r.Use(CORS([]string{"  http://localhost:5174  "}))
 	r.GET("/api/health", func(c *gin.Context) { c.String(http.StatusOK, "ok") })
 
 	req := httptest.NewRequest(http.MethodGet, "/api/health", nil)
-	req.Header.Set("Origin", "http://localhost:5173")
+	req.Header.Set("Origin", "http://localhost:5174")
 	rec := httptest.NewRecorder()
 	r.ServeHTTP(rec, req)
 
-	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5173" {
+	if got := rec.Header().Get(HeaderAllowOrigin); got != "http://localhost:5174" {
 		t.Errorf("带空白的白名单项应被归一化后匹配, Allow-Origin = %q", got)
 	}
 }

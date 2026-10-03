@@ -80,8 +80,8 @@ func Default() *Config {
 			ShutdownTimeoutSeconds: defaultShutdownTimeoutSeconds,
 		},
 		CORS: CORSConfig{
-			// 默认放行本地前端静态服务（与 Makefile 的 serve-frontend 端口一致）。
-			AllowOrigins: []string{"http://localhost:5173"},
+			// 默认放行本地前端开发服务器（与 Makefile 的 serve-frontend 端口一致）。
+			AllowOrigins: []string{"http://localhost:5174"},
 		},
 		Log: LogConfig{
 			Level: defaultLogLevel,
